@@ -17,3 +17,6 @@ const teacherSlice = createSlice({
 });
 
 const { setTeacherName, setTeacherPassword } = teacherSlice.actions;
+export default teacherSlice.reducer;
+
+export { setTeacherName, setTeacherPassword };
