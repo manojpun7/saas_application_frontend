@@ -1,20 +1,31 @@
 import { Status } from "@/lib/types/type";
-import { IInstituteInitialData } from "./instituteSlice.type";
+import { IInstitute, IInstituteInitialData } from "./instituteSlice.type";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+const initialState: IInstituteInitialData = {
+  institute: {
+    instituteName: "",
+    instituteEmail: "",
+    institutePhoneNumber: "",
+    instituteAddress: "",
+  },
+  status: Status.LOADING,
+};
+const instituteSlice = createSlice({
+  name: "institute",
+  initialState: initialState,
+  reducers: {
+    setInstitute(
+      state: IInstituteInitialData,
+      action: PayloadAction<IInstitute>
+    ) {
+      state.institute = action.payload;
+    },
+    setStatus(state: IInstituteInitialData, action: PayloadAction<Status>) {
+      state.status = action.payload;
+    },
+  },
+});
 
-const initialState:IInstituteInitialData = {
-   institute:{
-      instituteName: "";
-  instituteEmail: "";
-  institutePhoneNumber: "";
-  instituteAddress: "";
-   },
-   status: Status.LOADING
-    
-}
-createSlice({
-    name: "institute",
-    initialState:{
-        
-    }
-})
+const { setInstitute, setStatus } = instituteSlice.actions;
+export default instituteSlice.reducer;
