@@ -1,18 +1,28 @@
-import { Status } from "@/lib/types/type"
-import { IInitialTeacherData } from "./teacherSlice.type"
+import { Status } from "@/lib/types/type";
+import { IInitialTeacherData, ITeacher } from "./teacherSlice.type";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState:IInitialTeacherData= {
-    teacher:{
-        teacherName: "",
-        teacherEmail: "",
-        teacherPhoneNumber: ""
+const initialState: IInitialTeacherData = {
+  teacher: {
+    teacherName: "",
+    teacherEmail: "",
+    teacherPhoneNumber: "",
+  },
+  status: Status.LOADING,
+};
+
+const teacherSlice = createSlice({
+  name: "teacher",
+  initialState: initialState,
+  reducers: {
+    setTeacher(state: IInitialTeacherData, action: PayloadAction<ITeacher>) {
+      state.teacher = action.payload;
     },
-    status: Status.LOADING
-}
+    setStatus(state: IInitialTeacherData, action: PayloadAction<Status>) {
+      state.status = action.payload;
+    },
+  },
+});
 
-
-
-createSlice({
-    name :"teacher",
-    initialState:
-})
+const { setTeacher, setStatus } = teacherSlice.actions;
+export default teacherSlice.reducer;

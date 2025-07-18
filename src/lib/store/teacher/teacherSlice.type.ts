@@ -1,6 +1,6 @@
 import { Status } from "@/lib/types/type";
 
-interface ITeacher {
+export interface ITeacher {
   teacherName: string;
   teacherEmail: string;
   teacherPhoneNumber: string;
