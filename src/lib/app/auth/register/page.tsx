@@ -1,7 +1,13 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { IRegisterData } from "./register.types";
+import { registerUser } from "@/lib/store/auth/authSlice"
+import { useAppSelector } from "@/lib/store/hooks"
+import { Status } from "@/lib/types/type"
+
 
 const Register = () => {
+   const {institute} = useAppSelector((store)=>store.institute)
+  const {status} = useAppSelector((store)=>store.auth)
   const [data, setData] = useState<IRegisterData>({
     username: "",
     email: "",
@@ -17,6 +23,10 @@ const Register = () => {
   };
   const handleRegisterSubmission = (e: FormEvent<HTMLFormElement>) => {
     //api call
+         registerUser(data)
+        if(status === Status.SUCCESS){
+
+        }
   };
 
   return (

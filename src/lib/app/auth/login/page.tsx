@@ -1,11 +1,36 @@
 import React, { useState } from "react";
 import { ILoginData } from "./login.types";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { loginUser } from "@/lib/store/auth/authSlice";
+import { useAppSelector } from "@/lib/store/hooks";
+import { Status } from "@/lib/types/type";
 
 const Login = () => {
+  const { status } = useAppSelector((store) => store.auth);
+
+  const { institute } = useAppSelector((store) => store.institute);
   const [data, setData] = useState<ILoginData>({
     email: "",
     password: "",
   });
+  // handling type garkeo kura
+  const handleLoginDataChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
+
+  const handleLoginSubmission = (e: FormEvent<HTMLFormElement>) => {
+    // api call
+    loginUser(data);
+    if (status == Status.SUCCESS) {
+      alert("Logged in success");
+    } else if (status == Status.ERROR) {
+      alert("Error happened");
+    }
+  };
   return (
     <div>
       <div className="bg-gray-100 flex h-screen items-center justify-center px-4 sm:px-6 lg:px-8">
@@ -18,7 +43,11 @@ const Login = () => {
             <h2 className="my-3 text-center text-3xl font-bold tracking-tight text-gray-900">
               Sign up for an account
             </h2>
-            <form className="space-y-6" method="POST">
+            <form
+              onSubmit={handleLoginSubmission}
+              className="space-y-6"
+              method="POST"
+            >
               <div>
                 <label
                   htmlFor="password"
@@ -28,6 +57,7 @@ const Login = () => {
                 </label>
                 <div className="mt-1">
                   <input
+                    onChange={handleLoginDataChange}
                     name="email"
                     type="email-address"
                     autoComplete="email-address"
@@ -45,6 +75,7 @@ const Login = () => {
                 </label>
                 <div className="mt-1">
                   <input
+                    onChange={handleLoginDataChange}
                     name="password"
                     type="password"
                     autoComplete="password"

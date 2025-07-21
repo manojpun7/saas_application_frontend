@@ -5,6 +5,10 @@ export interface IUserData {
   password: string;
 }
 
+export interface IRegisterData extends IUserData {
+  email: string;
+}
+
 export interface IInitialState {
   user: IUserData;
   status: Status;
