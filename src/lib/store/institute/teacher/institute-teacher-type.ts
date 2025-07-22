@@ -1,4 +1,4 @@
-import { Status } from "@/lib/types/type";
+import { Status } from "../../../types/type";
 
 
 export enum TeacherExpertise{

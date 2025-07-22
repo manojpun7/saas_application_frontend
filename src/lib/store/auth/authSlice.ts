@@ -1,10 +1,10 @@
-import { Status } from "@/lib/types/type";
+import { Status } from "../../types/type";
 import { IInitialState, IRegisterData, IUserData } from "./authSlice.type";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import API from "@/lib/http";
+import API from "../../http";
 import { AppDispatch } from "../store";
-import { ILoginData } from "@/lib/app/auth/login/login.types"; 
+import { ILoginData } from "@/app/auth/login/login.types";  
 
 const initialState: IInitialState = {
   user: {

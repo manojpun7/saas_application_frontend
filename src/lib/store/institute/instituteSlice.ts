@@ -1,8 +1,8 @@
-import { Status } from "@/lib/types/type";
+import { Status } from "../../types/type";
 import { IInstitute, IInstituteInitialData } from "./instituteSlice.type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store";
-import API from "@/lib/http";
+import API from "../../http";
 
 const initialState: IInstituteInitialData = {
   institute: {

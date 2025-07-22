@@ -4,9 +4,9 @@ import {
   IInstituteTeacherInitialDataTeacher,
   TeacherExpertise,
 } from "./institute-teacher-type";
-import { Status } from "@/lib/types/type";
+import { Status } from "../../../types/type";
 import { AppDispatch } from "../../store";
-import API from "@/lib/http";
+import API from "../../../http";
 
 const initialState: IInstituteTeacherInitialData = {
   teacher: {

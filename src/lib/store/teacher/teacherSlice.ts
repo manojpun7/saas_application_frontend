@@ -1,4 +1,4 @@
-import { Status } from "@/lib/types/type";
+import { Status } from "../../types/type";
 import { IInitialTeacherData, ITeacher } from "./teacherSlice.type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
