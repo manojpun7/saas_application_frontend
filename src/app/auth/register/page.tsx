@@ -23,7 +23,6 @@ const Register = () => {
       [name]: value,
     });
   };
-  console.log(data)
   const handleRegisterSubmission = (e: FormEvent<HTMLFormElement>) => {
     //api call
     e.preventDefault();

@@ -1,13 +1,18 @@
+"use client"
+
 import React, { useState } from "react";
 import { ILoginData } from "./login.types";
 import { ChangeEvent, FormEvent } from "react";
 import { loginUser } from "@/lib/store/auth/authSlice"; 
-import { Status } from "@/lib/types/type"; 
-import { useAppSelector } from "@/lib/store/hooks"; 
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"; 
 
 const Login = () => {
-  const { status } = useAppSelector((store) => store.auth);
 
+  const dispatch = useAppDispatch()
+  const { user } = useAppSelector((store) => store.auth);
+
+  console.log(user)
+  
   const { institute } = useAppSelector((store) => store.institute);
   const [data, setData] = useState<ILoginData>({
     email: "",
@@ -24,12 +29,13 @@ const Login = () => {
 
   const handleLoginSubmission = (e: FormEvent<HTMLFormElement>) => {
     // api call
-    loginUser(data);
-    if (status == Status.SUCCESS) {
-      alert("Logged in success");
-    } else if (status == Status.ERROR) {
-      alert("Error happened");
-    }
+    e.preventDefault()
+    dispatch(loginUser(data));
+    // if (status == Status.SUCCESS) {
+    //   alert("Logged in success");
+    // } else if (status == Status.ERROR) {
+    //   alert("Error happened");
+    // }
   };
   return (
     <div>
@@ -50,7 +56,7 @@ const Login = () => {
             >
               <div>
                 <label
-                  htmlFor="password"
+                  htmlFor="email"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Email
