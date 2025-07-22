@@ -4,7 +4,7 @@ import { IInitialState, IRegisterData, IUserData } from "./authSlice.type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import API from "@/lib/http";
 import { AppDispatch } from "../store";
-import { ILoginData } from "@/app/auth/login/login.types";
+import { ILoginData } from "@/lib/app/auth/login/login.types"; 
 
 const initialState: IInitialState = {
   user: {

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { ILoginData } from "./login.types";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import { loginUser } from "@/lib/store/auth/authSlice";
-import { useAppSelector } from "@/lib/store/hooks";
 import { Status } from "@/lib/types/type";
+import { useAppSelector } from "@/lib/store/hooks";
 
 const Login = () => {
   const { status } = useAppSelector((store) => store.auth);

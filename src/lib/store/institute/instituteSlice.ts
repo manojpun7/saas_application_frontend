@@ -28,7 +28,6 @@ const instituteSlice = createSlice({
     },
   },
 });
-
 const { setInstitute, setStatus } = instituteSlice.actions;
 export default instituteSlice.reducer;
 
