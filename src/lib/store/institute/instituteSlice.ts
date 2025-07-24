@@ -51,20 +51,7 @@ export function fetchInstitutes() {
   return async function fetchInstitutesThunk(dispatch: AppDispatch) {
     try {
       const response = await API.get("institute");
-      /*
-
-            [
-            {
-            insName : "digitalpathshala", 
-            panNo : 123123
-            }, 
-             {
-            insName : "digitalpathshala", 
-            panNo : 123123
-            }
-            ]
-
-            */
+   
       if (response.status == 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setInstitute(response.data.data));
