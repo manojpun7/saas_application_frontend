@@ -2,7 +2,8 @@ import { Status } from "../../types/type";
 import { IInstitute, IInstituteInitialData } from "./instituteSlice.type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store";
-import API from "../../http";
+import API from "@/lib/http/Api"; 
+import APIWITHTOKEN from "@/lib/http/ApiWithToken";
 
 const initialState: IInstituteInitialData = {
   institute: {
@@ -31,10 +32,10 @@ const instituteSlice = createSlice({
 const { setInstitute, setStatus } = instituteSlice.actions;
 export default instituteSlice.reducer;
 
-export function createInstitute(data: any) {
+export function createInstitute(data: IInstitute) {
   return async function createInstituteThunk(dispatch: AppDispatch) {
     try {
-      const response = await API.post("insitute", data);
+      const response = await APIWITHTOKEN.post("insitute", data);
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
       } else {
