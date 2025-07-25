@@ -2,7 +2,7 @@ import { Status } from "../../types/type";
 import { IInitialState, IRegisterData, IUserData } from "./authSlice.type";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import API from "../../http";
+import API from "@/lib/http/Api"; 
 import { AppDispatch } from "../store";
 import { ILoginData } from "@/app/auth/login/login.types";
 
@@ -53,7 +53,8 @@ export function loginUser(data: ILoginData) {
       const response = await API.post("auth/login", data);
       if (response.status == 200) {
         dispatch(setUser(response.data.data));
-        localStorage.setItem("token", response.data.data);
+        localStorage.setItem("token", response.data.data.token);
+        localStorage.setItem("username", response.data.data.username);
         dispatch(setStatus(Status.SUCCESS));
       } else {
         dispatch(setStatus(Status.ERROR));

@@ -35,7 +35,7 @@ export default instituteSlice.reducer;
 export function createInstitute(data: IInstitute) {
   return async function createInstituteThunk(dispatch: AppDispatch) {
     try {
-      const response = await APIWITHTOKEN.post("insitute", data);
+      const response = await APIWITHTOKEN.post("institute", data);
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
       } else {
