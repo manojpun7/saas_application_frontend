@@ -21,7 +21,7 @@ function InstituteCategories() {
   return (
     <div className="flex flex-col">
       <div className=" overflow-x-auto">
-        {isModalOpen && <Modal closeModal={closeModal}/>}
+        {isModalOpen && <Modal closeModal={closeModal} />}
         <div className="min-w-full inline-block align-middle">
           <div className="flex justify-between relative  text-gray-500 focus-within:text-gray-900 mb-4">
             <div className="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none ">
@@ -125,12 +125,12 @@ function InstituteCategories() {
                         </td>
                         <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                           {" "}
-                          {category?.categoryDescription.substring(0, 50)}
+                          {category?.categoryDescription?.substring(0, 50)}
                         </td>
                         <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                           {" "}
                           {new Date(
-                            category?.createdAt.toString()
+                            category?.createdAt?.toString()
                           ).toLocaleDateString()}
                         </td>
                         <td className=" p-5 ">

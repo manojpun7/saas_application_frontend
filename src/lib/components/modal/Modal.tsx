@@ -1,8 +1,41 @@
+"use client";
+
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
+import { ICategoryAddData } from "@/lib/store/institute/category/category.types";
+import { addCategory } from "@/lib/store/institute/category/categorySlice";
+import { Status } from "@/lib/types/type";
+import { ChangeEvent, useState } from "react";
+
 interface ICloseModal {
   closeModal: () => void;
 }
 
 const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
+  const dispatch = useAppDispatch();
+  const { status } = useAppSelector((store) => store.category);
+  const [addCategoryData, setAddCategoryData] = useState<ICategoryAddData>({
+    categoryName: "",
+    categoryDescription: "",
+  });
+
+  const handleCategoryChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setAddCategoryData({
+      ...addCategoryData,
+      [name]: value,
+    });
+  };
+  const handleCategorySubmission = async (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    //api call
+    await dispatch(addCategory(addCategoryData));
+    if (status === Status.SUCCESS) {
+      closeModal();
+    }
+  };
+
   return (
     <div
       id="modal"
@@ -12,7 +45,7 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
       <div className="relative w-full max-w-md p-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            About Your Tool
+            Please add category
           </h3>
           <button
             id="closeModalButton"
@@ -37,19 +70,36 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
             </svg>
           </button>
         </div>
-        <div className="space-y-4">
+        <form onSubmit={handleCategorySubmission} className="space-y-4">
           <div>
             <label
               htmlFor="website_url"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
-              Website HomePage URL
+              Category Name
             </label>
             <input
-              type="url"
+              onChange={handleCategoryChange}
+              name="categoryName"
               id="website_url"
               className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-              placeholder="https://example.com"
+              placeholder="eg. web development"
+              required
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="website_url"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Category Description
+            </label>
+            <textarea
+              onChange={handleCategoryChange}
+              name="categoryDescription"
+              id="website_url"
+              className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+              placeholder="eg. this is web development course"
               required
             />
           </div>
@@ -84,7 +134,7 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
               </svg>
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
