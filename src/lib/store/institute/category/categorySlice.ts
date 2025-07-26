@@ -32,10 +32,23 @@ const categorySlice = createSlice({
     ) {
       state.data.push(action.payload);
     },
+    setDeleteCategory(
+      state: ICategoryInitialData,
+      action: PayloadAction<string>
+    ) {
+      const categoryId = action.payload;
+      const index = state.data.findIndex(
+        (category) => category.id == categoryId
+      );
+      if (index !== -1) {
+        state.data.splice(index, 1);
+      }
+    },
   },
 });
 
-const { setStatus, setFetchData, setAddData } = categorySlice.actions;
+const { setStatus, setFetchData, setAddData, setDeleteCategory } =
+  categorySlice.actions;
 export default categorySlice.reducer;
 
 export function fetchCategories() {
@@ -79,6 +92,7 @@ export function deleteCategory(id: string) {
       const response = await APIWITHTOKEN.delete("institute/category/" + id);
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
+        dispatch(setDeleteCategory(id));
       } else {
         dispatch(setStatus(Status.ERROR));
       }

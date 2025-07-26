@@ -2,17 +2,22 @@
 import Modal from "@/lib/components/modal/Modal";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { ICategoryData } from "@/lib/store/institute/category/category.types";
-import { fetchCategories } from "@/lib/store/institute/category/categorySlice";
+import { deleteCategory, fetchCategories } from "@/lib/store/institute/category/categorySlice";
 import { useEffect, useState } from "react";
 
 function InstituteCategories() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: categories } = useAppSelector((store) => store.category);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchCategories());
   }, []);
+
+    function handleCategoryDelete(id:string){
+     id && dispatch(deleteCategory(id))
+    }
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -151,7 +156,7 @@ function InstituteCategories() {
                                 />
                               </svg>
                             </button>
-                            <button className="p-2 rounded-full  group transition-all duration-500  flex item-center">
+                            <button onClick={()=>handleCategoryDelete(category?.id)} className="p-2 rounded-full  group transition-all duration-500  flex item-center">
                               <svg
                                 width={20}
                                 height={20}
