@@ -71,6 +71,7 @@ export function fetchCategories() {
 
 export function addCategory(data: ICategoryAddData) {
   return async function fetchCategoriesThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING))
     try {
       const response = await APIWITHTOKEN.post("institute/category", data);
       if (response.status === 200) {

@@ -13,6 +13,7 @@ interface ICloseModal {
 const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
   const dispatch = useAppDispatch();
   const { status } = useAppSelector((store) => store.category);
+  const isLoading = status === Status.LOADING;
   const [addCategoryData, setAddCategoryData] = useState<ICategoryAddData>({
     categoryName: "",
     categoryDescription: "",
@@ -112,26 +113,54 @@ const Modal: React.FC<ICloseModal> = ({ closeModal }) => {
               Cancel
             </button>
             <button
+              disabled={isLoading}
               id="submitUrlButton"
               className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-md bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 dark:from-indigo-500 dark:to-violet-500 dark:hover:from-indigo-600 dark:hover:to-violet-600"
             >
-              Add Category
-              <svg
-                className="h-4 w-4 inline-block ml-2"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-                data-slot="icon"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                />
-              </svg>
+              {isLoading ? (
+                <>
+                  <svg
+                    className="animate-spin h-4 w-4 text-white mr-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
+                  </svg>
+                  Adding...
+                </>
+              ) : (
+                <>
+                  Add Category
+                  <svg
+                    className="h-4 w-4 inline-block ml-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                    />
+                  </svg>
+                </>
+              )}
             </button>
           </div>
         </form>
