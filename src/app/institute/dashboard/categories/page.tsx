@@ -2,12 +2,15 @@
 import Modal from "@/lib/components/modal/Modal";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { ICategoryData } from "@/lib/store/institute/category/category.types";
-import { deleteCategory, fetchCategories } from "@/lib/store/institute/category/categorySlice";
+import {
+  deleteCategory,
+  fetchCategories,
+} from "@/lib/store/institute/category/categorySlice";
 import { useEffect, useState } from "react";
 
 function InstituteCategories() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [searchValue, setSearchValue] = useState("");
   const { data: categories } = useAppSelector((store) => store.category);
 
   const dispatch = useAppDispatch();
@@ -15,14 +18,16 @@ function InstituteCategories() {
     dispatch(fetchCategories());
   }, []);
 
-    function handleCategoryDelete(id:string){
-     id && dispatch(deleteCategory(id))
-    }
+  function handleCategoryDelete(id: string) {
+    id && dispatch(deleteCategory(id));
+  }
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  console.log(categories, "Categories");
+  let filteredData = categories.filter((category) => category.categoryName.includes(searchValue) || category.id.includes(searchValue))
+
+  
   return (
     <div className="flex flex-col">
       <div className=" overflow-x-auto">
@@ -59,6 +64,7 @@ function InstituteCategories() {
               </svg>
             </div>
             <input
+              onChange={(e) => setSearchValue(e.target.value)}
               type="text"
               id="default-search"
               className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
@@ -113,8 +119,8 @@ function InstituteCategories() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-300 ">
-                {categories.length > 0 &&
-                  categories.map((category: ICategoryData) => {
+                {filteredData.length > 0 &&
+                  filteredData.map((category: ICategoryData) => {
                     return (
                       <tr
                         key={category?.id}
@@ -156,7 +162,10 @@ function InstituteCategories() {
                                 />
                               </svg>
                             </button>
-                            <button onClick={()=>handleCategoryDelete(category?.id)} className="p-2 rounded-full  group transition-all duration-500  flex item-center">
+                            <button
+                              onClick={() => handleCategoryDelete(category?.id)}
+                              className="p-2 rounded-full  group transition-all duration-500  flex item-center"
+                            >
                               <svg
                                 width={20}
                                 height={20}
