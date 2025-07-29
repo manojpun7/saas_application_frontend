@@ -1,23 +1,12 @@
 import { Status } from "../../../types/type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
-import { IInstituteCourseInitialData } from "./institute-course-type";
+import { ICoursePostData, IInstituteCourseInitialData } from "./institute-course-type";
 import APIWITHTOKEN from "@/lib/http/ApiWithToken";
 
 const initialState: IInstituteCourseInitialData = {
+  courses: [],
   status: Status.LOADING,
-  courses: [
-    {
-      courseName: "nodejs",
-      coursePrice: "999",
-      id: "1",
-    },
-    {
-      courseName: "reactjs",
-      coursePrice: "999",
-      id: "2",
-    },
-  ],
 };
 
 const instituteCourseSlice = createSlice({
@@ -55,7 +44,7 @@ const { setStatus, setCourse, setDeleteCourse, setEditCourse } =
 export default instituteCourseSlice.reducer;
 
 // thunks
-export function createInstituteCourse(data: any) {
+export function createInstituteCourse(data: ICoursePostData) {
   return async function createInstituteCourseThunk(dispatch: AppDispatch) {
     try {
       const response = await APIWITHTOKEN.post("/institute/course", data);

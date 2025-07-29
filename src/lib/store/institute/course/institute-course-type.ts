@@ -1,6 +1,6 @@
 import { Status } from "../../../types/type";
 
-interface IInstituteCourseInitialDataCourse {
+export interface IInstituteCourseInitialDataCourse {
   courseName: string;
   coursePrice: string;
   id: string;

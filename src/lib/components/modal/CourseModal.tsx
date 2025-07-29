@@ -1,11 +1,7 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import { ICategoryAddData } from "@/lib/store/institute/category/category.types";
-import {
-  addCategory,
-  fetchCategories,
-} from "@/lib/store/institute/category/categorySlice";
+import { fetchCategories } from "@/lib/store/institute/category/categorySlice";
 import {
   createInstituteCourse,
   fetchInstituteCourse,
@@ -21,7 +17,6 @@ interface ICloseModal {
 const courseLevel = ["Begineer", "Intermediate", "Advance"];
 
 const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
-  const { courses } = useAppSelector((store) => store.course);
   const { data } = useAppSelector((store) => store.category);
   const dispatch = useAppDispatch();
   const { status } = useAppSelector((store) => store.category);
@@ -35,7 +30,7 @@ const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
     courseThumbnail: null,
   });
   const handleCourseChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setCourseData({
@@ -51,11 +46,11 @@ const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
     }
   };
   useEffect(() => {
-    dispatch(fetchInstituteCourse());
     if (data.length === 0) {
       dispatch(fetchCategories());
     }
   }, []);
+  console.log(courseData);
   return (
     <div
       id="modal"
@@ -171,8 +166,9 @@ const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
                 Course Category
               </label>
               <select
+                onChange={handleCourseChange}
                 className="w-48 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
-                name="courseId"
+                name="categoryId"
                 id=""
               >
                 {data.length > 0 &&
@@ -197,8 +193,9 @@ const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
                 Course Level
               </label>
               <select
+                onChange={handleCourseChange}
                 className="w-48 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
-                name="courseId"
+                name="courseLevel"
                 id=""
               >
                 {courseLevel.map((cl) => {
@@ -223,7 +220,7 @@ const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
               Course Description
             </label>
             <textarea
-              name="categoryDescription"
+              name="courseDescription"
               onChange={handleCourseChange}
               id="website_url"
               className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
