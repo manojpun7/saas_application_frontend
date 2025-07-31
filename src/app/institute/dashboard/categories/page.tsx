@@ -34,6 +34,7 @@ function InstituteCategories() {
       category.categoryName.includes(searchValue) ||
       category.id.includes(searchValue)
   );
+  
 
   return (
     <div className="flex flex-col">

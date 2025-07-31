@@ -52,7 +52,7 @@ const { setStatus, setFetchData, setAddData, setDeleteCategory } =
 export default categorySlice.reducer;
 
 export function fetchCategories() {
-  return async function fetchCategoriesThunk(dispatch: AppDispatch) {
+  return async function fetchCategoresiThunk(dispatch: AppDispatch) {
     try {
       const response = await APIWITHTOKEN.get("institute/category");
       if (response.status === 200) {

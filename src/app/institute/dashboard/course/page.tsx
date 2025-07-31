@@ -14,13 +14,13 @@ export default function InstituteCourse() {
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-    dispatch(fetchInstituteCourse);
-  }, []);
+    dispatch(fetchInstituteCourse());
+  },[]);
 
-  let filteredData = courses.filter(
-    (course) =>
-      course.courseName.includes(searchValue) || course.id.includes(searchValue)
-  );
+  console.log(courses+"courses fetched")
+
+
+
 
   return (
     <div className="flex flex-col">
@@ -110,8 +110,8 @@ export default function InstituteCourse() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-300 ">
-              {filteredData.length > 0 &&
-                filteredData.map(
+              {courses.length > 0 &&
+                courses.map(
                   (course: IInstituteCourseInitialDataCourse) => {
                     return (
                       <tr key={course?.id} className="bg-white transition-all duration-500 hover:bg-gray-50">

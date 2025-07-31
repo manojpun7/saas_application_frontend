@@ -35,7 +35,8 @@ const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
     const { name, value } = e.target;
     setCourseData({
       ...courseData,
-      [name]: value,
+      //@ts-ignore
+      [name]: name === "courseThumbnail" ? e.target.files[0] : value,
     });
   };
   const handleCourseSubmission = async (e: ChangeEvent<HTMLFormElement>) => {
