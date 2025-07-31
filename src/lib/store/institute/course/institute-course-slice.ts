@@ -87,6 +87,7 @@ export function createInstituteCourse(data: ICoursePostData) {
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         response.data.data && dispatch(setAddCourse(response.data.data));
+        dispatch(fetchInstituteCourse())
       } else {
         dispatch(setStatus(Status.ERROR));
       }

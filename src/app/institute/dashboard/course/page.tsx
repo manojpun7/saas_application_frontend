@@ -2,7 +2,7 @@
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { useEffect, useState } from "react";
 import CourseModal from "@/lib/components/modal/CourseModal";
-import { fetchInstituteCourse } from "@/lib/store/institute/course/institute-course-slice";
+import { deleteInstituteCourse, fetchInstituteCourse } from "@/lib/store/institute/course/institute-course-slice";
 import { IInstituteCourseInitialDataCourse } from "@/lib/store/institute/course/institute-course-type";
 
 export default function InstituteCourse() {
@@ -17,7 +17,10 @@ export default function InstituteCourse() {
     dispatch(fetchInstituteCourse());
   },[]);
 
-  console.log(courses+"courses fetched")
+
+ function handleCourseDelete(id: string) {
+    id && dispatch(deleteInstituteCourse(id));
+  }
 
 
 
@@ -144,7 +147,8 @@ export default function InstituteCourse() {
                                 />
                               </svg>
                             </button>
-                            <button className="p-2 rounded-full  group transition-all duration-500  flex item-center">
+                            <button   onClick={() =>
+                                    handleCourseDelete(course?.id) } className="p-2 rounded-full  group transition-all duration-500  flex item-center">
                               <svg
                                 width={20}
                                 height={20}

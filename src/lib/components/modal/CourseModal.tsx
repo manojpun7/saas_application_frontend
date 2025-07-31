@@ -14,7 +14,7 @@ interface ICloseModal {
   closeModal: () => void;
 }
 
-const courseLevel = ["Begineer", "Intermediate", "Advance"];
+const courseLevel = ["Beginner", "Intermediate", "Advance"];
 
 const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
   const { data } = useAppSelector((store) => store.category);
@@ -177,6 +177,7 @@ const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
                     return (
                       <option
                         className="text-gray-300 bg-gray-800"
+                        
                         key={category.id}
                         value={category.id}
                       >
@@ -202,6 +203,7 @@ const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
                 {courseLevel.map((cl) => {
                   return (
                     <option
+                      
                       className="text-gray-300 bg-gray-800"
                       key={cl}
                       value={cl}
