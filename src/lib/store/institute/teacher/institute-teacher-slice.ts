@@ -25,9 +25,9 @@ const insituteTeacherSlice = createSlice({
     },
     setTeacher(
       state: IInstituteTeacherInitialData,
-      action: PayloadAction<IInstituteTeacherInitialDataState>
+      action: PayloadAction<IInstituteTeacherInitialDataState[]>
     ) {
-      state.teachers.push(action.payload);
+      state.teachers=action.payload;
     },
   },
 });
