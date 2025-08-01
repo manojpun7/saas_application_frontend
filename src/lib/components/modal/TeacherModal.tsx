@@ -26,6 +26,7 @@ const TeacherModal: React.FC<ICloseModal> = ({ closeModal }) => {
       teacherJoinedDate: "",
       teacherSalary: "",
       teacherPhoto: null,
+      courseId: "",
     });
   const handleTeacherChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -150,7 +151,7 @@ const TeacherModal: React.FC<ICloseModal> = ({ closeModal }) => {
               <input
                 name="teacherPhoneNumber"
                 onChange={handleTeacherChange}
-                type="number"
+                type="text"
                 id="website_url"
                 className="w-48 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
                 placeholder="98xxxxxxxx"
@@ -222,7 +223,7 @@ const TeacherModal: React.FC<ICloseModal> = ({ closeModal }) => {
               <select
                 onChange={handleTeacherChange}
                 className="w-48 h-10 border mt-1 border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
-                name="courseLevel"
+                name="courseId"
                 id=""
               >
                 {courses.map((course) => {

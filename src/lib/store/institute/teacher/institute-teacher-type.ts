@@ -22,6 +22,7 @@ teacherExperience : string ,
 teacherSalary : string,
 teacherJoinedDate : string, 
 teacherPhoto : File | null, 
+courseId:string,
 }
 
 interface IInitialTeacherDataWithCourse extends IInstituteTeacherInitialDataTeacher{
