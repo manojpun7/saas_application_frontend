@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   IInstituteTeacherInitialData,
-  IInstituteTeacherInitialDataTeacher,
+  IInstituteTeacherInitialDataState,
+  IInstituteTeacherPostData,
 } from "./institute-teacher-type";
 import { Status } from "../../../types/type";
 import { AppDispatch } from "../../store";
@@ -24,7 +25,7 @@ const insituteTeacherSlice = createSlice({
     },
     setTeacher(
       state: IInstituteTeacherInitialData,
-      action: PayloadAction<IInstituteTeacherInitialDataTeacher>
+      action: PayloadAction<IInstituteTeacherInitialDataState>
     ) {
       state.teachers.push(action.payload);
     },
@@ -35,7 +36,7 @@ const { setStatus, setTeacher } = insituteTeacherSlice.actions;
 export default insituteTeacherSlice.reducer;
 
 export function createInstituteTeacher(
-  data: IInstituteTeacherInitialDataTeacher
+  data: IInstituteTeacherPostData
 ) {
   return async function createInstituteTeacherThunk(dispatch: AppDispatch) {
     try {

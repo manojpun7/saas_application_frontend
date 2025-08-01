@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { fetchCategories } from "@/lib/store/institute/category/categorySlice";
 import { fetchInstituteCourse } from "@/lib/store/institute/course/institute-course-slice";
 import { createInstituteTeacher } from "@/lib/store/institute/teacher/institute-teacher-slice";
-import { IInstituteTeacherInitialDataTeacher } from "@/lib/store/institute/teacher/institute-teacher-type";
+import { IInstituteTeacherPostData } from "@/lib/store/institute/teacher/institute-teacher-type";
 import { Status } from "@/lib/types/type";
 import React, { ChangeEvent, useEffect, useState } from "react";
 
@@ -17,17 +17,16 @@ const TeacherModal: React.FC<ICloseModal> = ({ closeModal }) => {
   const dispatch = useAppDispatch();
   const { status } = useAppSelector((store) => store.teacher);
   const { courses } = useAppSelector((store) => store.course);
-  const [teacherData, setTeacherData] =
-    useState<IInstituteTeacherInitialDataTeacher>({
-      teacherName: "",
-      teacherEmail: "",
-      teacherPhoneNumber: "",
-      teacherExperience: "",
-      teacherJoinedDate: "",
-      teacherSalary: "",
-      teacherPhoto: null,
-      courseId: "",
-    });
+  const [teacherData, setTeacherData] = useState<IInstituteTeacherPostData>({
+    teacherName: "",
+    teacherEmail: "",
+    teacherPhoneNumber: "",
+    teacherExperience: "",
+    teacherJoinedDate: "",
+    teacherSalary: "",
+    teacherPhoto: null,
+    courseId: "",
+  });
   const handleTeacherChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -48,6 +47,8 @@ const TeacherModal: React.FC<ICloseModal> = ({ closeModal }) => {
   useEffect(() => {
     if (teachers.length === 0) {
       dispatch(fetchCategories());
+    }
+    if (courses.length === 0) {
       dispatch(fetchInstituteCourse());
     }
   }, []);
