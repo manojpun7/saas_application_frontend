@@ -19,7 +19,7 @@ function InstituteCategories() {
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchCategories());
+    categories.length === 0 && dispatch(fetchCategories()); 
   }, []);
 
   function handleCategoryDelete(id: string) {
@@ -34,7 +34,6 @@ function InstituteCategories() {
       category.categoryName.includes(searchValue) ||
       category.id.includes(searchValue)
   );
-  
 
   return (
     <div className="flex flex-col">

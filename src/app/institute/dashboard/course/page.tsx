@@ -14,8 +14,13 @@ export default function InstituteCourse() {
   const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-    dispatch(fetchInstituteCourse());
+
+    if(courses.length===0){
+      dispatch(fetchInstituteCourse());
+    }
   },[]);
+
+
 
 
  function handleCourseDelete(id: string) {

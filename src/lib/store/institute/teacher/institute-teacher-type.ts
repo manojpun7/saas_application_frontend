@@ -1,11 +1,11 @@
 import { Status } from "../../../types/type";
 
 
-export enum TeacherExpertise{
-    Begineer = "begineer", 
-    Intermediate = "intermediate", 
-    Pro = "pro"
-}
+// export enum TeacherExpertise{
+//     Begineer = "begineer", 
+//     Intermediate = "intermediate", 
+//     Pro = "pro"
+// }
 
 interface IInstituteTeacherInitialDataTeacherCourse{
     courseName : string, 
@@ -14,13 +14,14 @@ interface IInstituteTeacherInitialDataTeacherCourse{
 }
 
 export interface IInstituteTeacherInitialDataTeacher{
+id?:string,
 teacherName : string | null,
 teacherEmail :string | null ,
 teacherPhoneNumber : string,
-teacherExpertise : TeacherExpertise ,
+teacherExperience : string ,
 teacherSalary : string,
 teacherJoinedDate : string, 
-teacherPhoto : string, 
+teacherPhoto : File | null, 
 }
 
 interface IInitialTeacherDataWithCourse extends IInstituteTeacherInitialDataTeacher{
@@ -31,6 +32,6 @@ course ?: IInstituteTeacherInitialDataTeacherCourse
 
 
 export interface IInstituteTeacherInitialData{
-    teacher : IInitialTeacherDataWithCourse, 
+    teachers : IInitialTeacherDataWithCourse[], 
     status : Status
 }

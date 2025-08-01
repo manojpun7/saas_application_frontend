@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from './auth/authSlice'
-import teacherSlice from './teacher/teacherSlice'
+import teacherSlice from './institute/teacher/institute-teacher-slice'
 import instituteSlice from './institute/instituteSlice'
 import categorySlice from './institute/category/categorySlice'
 import courseSlice from './institute/course/institute-course-slice'

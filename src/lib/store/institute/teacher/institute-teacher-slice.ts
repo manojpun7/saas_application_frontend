@@ -2,27 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   IInstituteTeacherInitialData,
   IInstituteTeacherInitialDataTeacher,
-  TeacherExpertise,
 } from "./institute-teacher-type";
 import { Status } from "../../../types/type";
 import { AppDispatch } from "../../store";
-import API from "../../../http";
+import APIWITHTOKEN from "@/lib/http/ApiWithToken";
 
 const initialState: IInstituteTeacherInitialData = {
-  teacher: {
-    course: {
-      courseName: "",
-      coursePrice: "",
-      courseThumbnail: "",
-    },
-    teacherEmail: "",
-    teacherExpertise: TeacherExpertise.Begineer,
-    teacherPhoneNumber: "",
-    teacherJoinedDate: "",
-    teacherSalary: "",
-    teacherName: "",
-    teacherPhoto: "",
-  },
+  teachers: [],
   status: Status.LOADING,
 };
 
@@ -40,7 +26,7 @@ const insituteTeacherSlice = createSlice({
       state: IInstituteTeacherInitialData,
       action: PayloadAction<IInstituteTeacherInitialDataTeacher>
     ) {
-      state.teacher = action.payload;
+      state.teachers.push(action.payload);
     },
   },
 });
@@ -53,9 +39,14 @@ export function createInstituteTeacher(
 ) {
   return async function createInstituteTeacherThunk(dispatch: AppDispatch) {
     try {
-      const response = await API.post("/institute/teacher", data);
+      const response = await APIWITHTOKEN.post("/institute/teacher", data,{
+        headers:{
+          "Content-Type":"multipart/form-data"
+        }
+      });
       if (response.status === 201) {
         dispatch(setStatus(Status.SUCCESS));
+        response.data.data.length>0 && dispatch(setTeacher(response.data.data))
       } else {
         dispatch(setStatus(Status.ERROR));
       }
@@ -69,7 +60,7 @@ export function createInstituteTeacher(
 export function fetchInsituteTeacher() {
   return async function fetchInsituteTeacherThunk(dispatch: AppDispatch) {
     try {
-      const response = await API.get("/institute/teacher");
+      const response = await APIWITHTOKEN.get("/institute/teacher");
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         response.data.data.length > 0 &&
@@ -87,7 +78,7 @@ export function fetchInsituteTeacher() {
 export function deleteInsituteTeacherById(id: string) {
   return async function deleteInsituteTeacherByIdThunk(dispatch: AppDispatch) {
     try {
-      const response = await API.delete("/institute/teacher/" + id);
+      const response = await APIWITHTOKEN.delete("/institute/teacher/" + id);
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
         // popout teacher of that id from slice too
