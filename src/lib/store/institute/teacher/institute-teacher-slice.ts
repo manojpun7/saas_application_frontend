@@ -23,31 +23,44 @@ const insituteTeacherSlice = createSlice({
     ) {
       state.status = action.payload;
     },
+
     setTeacher(
       state: IInstituteTeacherInitialData,
       action: PayloadAction<IInstituteTeacherInitialDataState[]>
     ) {
-      state.teachers=action.payload;
+      state.teachers = action.payload;
+    },
+
+    setDeleteTeacher(
+      state: IInstituteTeacherInitialData,
+      action: PayloadAction<string>
+    ) {
+      const index = state.teachers.findIndex(
+        (teacher) => teacher.id === action.payload
+      );
+      if (index !== -1) {
+        state.teachers.splice(index, 1);
+      }
     },
   },
 });
 
-const { setStatus, setTeacher } = insituteTeacherSlice.actions;
+const { setStatus, setTeacher, setDeleteTeacher } =
+  insituteTeacherSlice.actions;
 export default insituteTeacherSlice.reducer;
 
-export function createInstituteTeacher(
-  data: IInstituteTeacherPostData
-) {
+export function createInstituteTeacher(data: IInstituteTeacherPostData) {
   return async function createInstituteTeacherThunk(dispatch: AppDispatch) {
     try {
-      const response = await APIWITHTOKEN.post("/institute/teacher", data,{
-        headers:{
-          "Content-Type":"multipart/form-data"
-        }
+      const response = await APIWITHTOKEN.post("/institute/teacher", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
-      if (response.status === 201) {
+      if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
-        response.data.data.length>0 && dispatch(setTeacher(response.data.data))
+        response.data.data.length > 0 &&
+          dispatch(setTeacher(response.data.data));
       } else {
         dispatch(setStatus(Status.ERROR));
       }
@@ -82,7 +95,7 @@ export function deleteInsituteTeacherById(id: string) {
       const response = await APIWITHTOKEN.delete("/institute/teacher/" + id);
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
-        // popout teacher of that id from slice too
+        dispatch(setDeleteTeacher(id));
       } else {
         dispatch(setStatus(Status.ERROR));
       }

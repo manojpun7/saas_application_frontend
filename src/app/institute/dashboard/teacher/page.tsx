@@ -1,10 +1,8 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { useEffect, useState } from "react";
-import { deleteInstituteCourse } from "@/lib/store/institute/course/institute-course-slice";
-import { IInstituteCourseInitialDataCourse } from "@/lib/store/institute/course/institute-course-type";
 import TeacherModal from "@/lib/components/modal/TeacherModal";
-import { fetchInsituteTeacher } from "@/lib/store/institute/teacher/institute-teacher-slice";
+import { deleteInsituteTeacherById, fetchInsituteTeacher } from "@/lib/store/institute/teacher/institute-teacher-slice";
 import { IInstituteTeacherInitialDataState } from "@/lib/store/institute/teacher/institute-teacher-type";
 
 export default function InstituteTeacher() {
@@ -20,9 +18,10 @@ export default function InstituteTeacher() {
       dispatch(fetchInsituteTeacher());
     }
   }, []);
+  console.log(teachers)
 
   function handleTeacherDelete(id: string) {
-    id && dispatch(deleteInstituteCourse(id));
+    id && dispatch(deleteInsituteTeacherById(id));
   }
 
   return (
@@ -105,6 +104,13 @@ export default function InstituteTeacher() {
                 </th>
                 <th
                   scope="col"
+                  className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"
+                >
+                  {" "}
+                  Course Name{" "}
+                </th>
+                <th
+                  scope="col"
                   className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl"
                 >
                   {" "}
@@ -130,6 +136,10 @@ export default function InstituteTeacher() {
                       <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                         {" "}
                         {teacher.teacherEmail}
+                      </td>
+                      <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                        {" "}
+                        {teacher.courseName}
                       </td>
                       <td className=" p-5 ">
                         <div className="flex items-center gap-1">

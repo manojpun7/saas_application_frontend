@@ -8,10 +8,10 @@ import courseSlice from './institute/course/institute-course-slice'
 const store = configureStore({
   reducer: {
    auth :authSlice,
-   teacher: teacherSlice,
    institute: instituteSlice,
    category: categorySlice,
    course: courseSlice,
+   teacher: teacherSlice,
   },
 });
 

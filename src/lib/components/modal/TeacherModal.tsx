@@ -13,7 +13,6 @@ interface ICloseModal {
 }
 
 const TeacherModal: React.FC<ICloseModal> = ({ closeModal }) => {
-  const { teachers } = useAppSelector((store) => store.teacher);
   const dispatch = useAppDispatch();
   const { status } = useAppSelector((store) => store.teacher);
   const { courses } = useAppSelector((store) => store.course);
@@ -45,9 +44,6 @@ const TeacherModal: React.FC<ICloseModal> = ({ closeModal }) => {
     }
   };
   useEffect(() => {
-    if (teachers.length === 0) {
-      dispatch(fetchCategories());
-    }
     if (courses.length === 0) {
       dispatch(fetchInstituteCourse());
     }

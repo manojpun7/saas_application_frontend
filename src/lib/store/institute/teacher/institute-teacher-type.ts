@@ -1,9 +1,10 @@
 import { Status } from "../../../types/type";
 
 export interface IInstituteTeacherInitialDataState {
+  id: string;
   teacherName: string;
   teacherEmail: string;
-  id: string;
+  courseName:string;
 }
 
 export interface IInstituteTeacherInitialData {
@@ -20,6 +21,7 @@ export interface IInstituteTeacherPostData {
   teacherJoinedDate: string;
   teacherPhoto: File | null;
   courseId: string;
+  courseName:string;
 }
 
 // interface IInstituteTeacherInitialDataTeacherCourse{

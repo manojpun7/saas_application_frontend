@@ -28,9 +28,9 @@ const categorySlice = createSlice({
     },
     setAddData(
       state: ICategoryInitialData,
-      action: PayloadAction<ICategoryData>
+      action: PayloadAction<ICategoryData[]>
     ) {
-      state.data.push(action.payload);
+      state.data = action.payload
     },
     setDeleteCategory(
       state: ICategoryInitialData,
@@ -59,6 +59,7 @@ export function fetchCategories() {
         dispatch(setStatus(Status.SUCCESS));
         response.data.data.length > 0 &&
           dispatch(setFetchData(response.data.data));
+          dispatch(setAddData(response.data.data));
       } else {
         dispatch(setStatus(Status.ERROR));
       }
