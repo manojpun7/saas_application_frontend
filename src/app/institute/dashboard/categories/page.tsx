@@ -12,14 +12,14 @@ import { useEffect, useState } from "react";
 
 function InstituteCategories() {
   const { status } = useAppSelector((store) => store.category);
+  const isLoading = status === Status.LOADING;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const { data: categories } = useAppSelector((store) => store.category);
-  const isLoading = status === Status.LOADING;
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    categories.length === 0 && dispatch(fetchCategories()); 
+    categories.length === 0 && dispatch(fetchCategories());
   }, []);
 
   function handleCategoryDelete(id: string) {
@@ -29,12 +29,12 @@ function InstituteCategories() {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  let filteredData = categories.filter(
+  let filteredData =  categories.filter(
     (category) =>
       category.categoryName.includes(searchValue) ||
       category.id.includes(searchValue)
   );
-
+console.log("debuggggggginghggg"+Array.isArray(categories), categories);
   return (
     <div className="flex flex-col">
       <div className=" overflow-x-auto">

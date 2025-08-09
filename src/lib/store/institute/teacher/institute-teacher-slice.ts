@@ -51,6 +51,7 @@ export default insituteTeacherSlice.reducer;
 
 export function createInstituteTeacher(data: IInstituteTeacherPostData) {
   return async function createInstituteTeacherThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
     try {
       const response = await APIWITHTOKEN.post("/institute/teacher", data, {
         headers: {
