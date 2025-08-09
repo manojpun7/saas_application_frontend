@@ -69,6 +69,7 @@ export default instituteCourseSlice.reducer;
 // thunks
 export function createInstituteCourse(data: ICoursePostData) {
   return async function createInstituteCourseThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
     try {
       const response = await APIWITHTOKEN.post("/institute/course", data, {
         headers: {
@@ -91,6 +92,8 @@ export function createInstituteCourse(data: ICoursePostData) {
 
 export function fetchInstituteCourse() {
   return async function fetchInstituteCourseThunk(dispatch: AppDispatch) {
+    dispatch(setStatus(Status.LOADING));
+
     try {
       const response = await APIWITHTOKEN.get("/institute/course");
       if (response.status === 200) {

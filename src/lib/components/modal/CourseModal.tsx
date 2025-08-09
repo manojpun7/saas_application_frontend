@@ -2,10 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { fetchCategories } from "@/lib/store/institute/category/categorySlice";
-import {
-  createInstituteCourse,
-  fetchInstituteCourse,
-} from "@/lib/store/institute/course/institute-course-slice";
+import { createInstituteCourse } from "@/lib/store/institute/course/institute-course-slice";
 import { ICoursePostData } from "@/lib/store/institute/course/institute-course-type";
 import { Status } from "@/lib/types/type";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -19,7 +16,8 @@ const courseLevel = ["Beginner", "Intermediate", "Advance"];
 const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
   const { data } = useAppSelector((store) => store.category);
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector((store) => store.category);
+  const { status } = useAppSelector((store) => store.course);
+  const isLoading = status === Status.LOADING;
   const [courseData, setCourseData] = useState<ICoursePostData>({
     courseName: "",
     courseDescription: "",
@@ -177,7 +175,6 @@ const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
                     return (
                       <option
                         className="text-gray-300 bg-gray-800"
-                        
                         key={category.id}
                         value={category.id}
                       >
@@ -203,7 +200,6 @@ const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
                 {courseLevel.map((cl) => {
                   return (
                     <option
-                      
                       className="text-gray-300 bg-gray-800"
                       key={cl}
                       value={cl}
@@ -233,33 +229,62 @@ const CourseModal: React.FC<ICloseModal> = ({ closeModal }) => {
           </div>
           <div className="flex justify-end gap-3">
             <button
+              disabled={isLoading}
               onClick={closeModal}
               id="cancelButton"
               className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600"
             >
               Cancel
             </button>
-            <button
+           <button
+              disabled={isLoading}
               id="submitUrlButton"
               className="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-md bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 dark:from-indigo-500 dark:to-violet-500 dark:hover:from-indigo-600 dark:hover:to-violet-600"
             >
-              Create
-              <svg
-                className="h-4 w-4 inline-block ml-2"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-                data-slot="icon"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                />
-              </svg>
+              {isLoading ? (
+                <>
+                  <svg
+                    className="animate-spin h-4 w-4 text-white mr-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
+                  </svg>
+                  Adding...
+                </>
+              ) : (
+                <>
+                  Add Course
+                  <svg
+                    className="h-4 w-4 inline-block ml-2"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                    />
+                  </svg>
+                </>
+              )}
             </button>
           </div>
         </form>
