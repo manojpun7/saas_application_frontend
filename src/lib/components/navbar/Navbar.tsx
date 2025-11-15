@@ -2,10 +2,12 @@ import Link from "next/link";
 
 function Navbar() {
   return (
-    <header className="sticky inset-0 z-50 border-b border-slate-100 bg-white/93 backdrop-blur-lg">
+    <header className="sticky inset-0 z-50 border-b border-slate-100 bg-gray-100 shadow-sm backdrop-blur-lg">
       <nav className="mx-auto flex max-w-6xl gap-8 px-6 transition-all duration-200 ease-in-out lg:px-12 py-4">
         <div className="relative flex items-center">
+          <Link href="/">
           <h1 className="pt-1.5 text-black ">Edu. Sanjaal</h1>
+          </Link>
         </div>
         <ul className="hidden items-center justify-center gap-6 md:flex">
       <li className="pt-1.5 font-dm text-sm font-medium text-slate-700">
@@ -25,7 +27,7 @@ function Navbar() {
           </Link>
           <Link
             href="/institute/become"
-            className="rounded-md bg-gradient-to-br from-green-600 to-emerald-400 px-3 py-1.5 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]"
+            className="rounded-md bg-gradient-to-br from-blue-600 to-blue-400 px-3 py-1.5 font-dm text-sm font-medium text-white shadow-md shadow-blue-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]"
           >
             Become an Institute
           </Link>

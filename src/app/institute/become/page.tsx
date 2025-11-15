@@ -1,93 +1,145 @@
-"use client"
-import { useAppDispatch } from "@/lib/store/hooks"
-import { createInstitute } from "@/lib/store/institute/instituteSlice"
-import { IInstitute } from "@/lib/store/institute/instituteSlice.type"
-import { ChangeEvent, FormEvent, useState } from "react"
+"use client";
 
+import { useAppDispatch } from "@/lib/store/hooks";
+import { createInstitute } from "@/lib/store/institute/instituteSlice";
+import { IInstitute } from "@/lib/store/institute/instituteSlice.type";
+import { ChangeEvent, FormEvent, useState, useRef } from "react";
 
+// --- Main Component ---
+export default function BecomeInstitute() {
+  // Assuming these are defined in your actual project setup
+  const dispatch = useAppDispatch();
+  const sectionRef = useRef<HTMLDivElement>(null);
 
-function becomeInstitute(){
-    const dispatch = useAppDispatch()
-    const [instituteData,setInstituteData] = useState<IInstitute>({
-        instituteAddress : "", 
-        instituteEmail : "", 
-        instituteName : "", 
-        institutePhoneNumber : "", 
-        institutePanNumber : "", 
-        instituteVatNumber : ""
-    })
+  const [instituteData, setInstituteData] = useState<IInstitute>({
+    instituteAddress: "",
+    instituteEmail: "",
+    instituteName: "",
+    institutePhoneNumber: "",
+    institutePanNumber: "",
+    instituteVatNumber: "",
+  });
 
-    const handleChange = (e:ChangeEvent<HTMLInputElement>)=>{
-        const {name,value} = e.target
-        setInstituteData({
-            ...instituteData, 
-            [name] : value
-        })
-    }
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInstituteData({ ...instituteData, [name]: value });
+  };
 
-    const handleInstituteCreateSubmission = (e:FormEvent<HTMLFormElement>)=>{
-        e.preventDefault()
-        // api call
-        dispatch(createInstitute(instituteData))
-    }
+  const handleInstituteCreateSubmission = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Dispatch the action to create the institute
+    console.log("Submitting institute data:", instituteData);
+    dispatch(createInstitute(instituteData));
+    // Optionally reset form or show success message here
+  };
 
-    return(
-      <>
-<div className="flex items-center justify-center h-screen">
-  <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-    {/* Logo and Heading */}
-    <div className="text-center">
-      <h1 className="text-2xl font-semibold text-green-600 flex items-center justify-center">
-        <span className="mr-1 text-3xl font-bold">Create</span>
-        Institute
-      </h1>
-      <p className="text-gray-500 text-sm mt-1">
-        Do you wanna be institute ? lets do it
-      </p>
+  return (
+    <div className="relative min-h-screen font-[Poppins] bg-[#f8fafc] overflow-x-hidden">
+      
+      {/* Header */}
+      <div className="text-center pt-5 pb-8 px-4">
+        <h1 className="text-4xl sm:text-5xl font-bold text-gradient mb-4">Become an Institute</h1>
+        <p className="text-gray-600 max-w-xl mx-auto">
+          Manage your students and teachers independently, track performance, and grow digitally.
+        </p>
+      </div>
+
+      {/* Section container */}
+      <div
+        ref={sectionRef}
+        // Flex container for the two columns
+        className="relative flex flex-col md:flex-row justify-center items-start px-4 md:px-16 gap-[10%] pb-16"
+      >
+        
+        {/* Sticky Left Form Column */}
+        <div className="w-full md:w-[40%] mb-10 md:mb-0">
+          <div
+            // Key to stickiness: sticky position and top offset
+            className="sticky top-[80px]" 
+            style={{ alignSelf: "start" }}
+          >
+            <div className="bg-white p-8 rounded-2xl shadow-2xl">
+              <h2 className="text-2xl font-bold text-[#4f46e5] mb-4">Create Your Account</h2>
+              <form onSubmit={handleInstituteCreateSubmission} className="space-y-4">
+                <InputField placeholder="Institute Name" name="instituteName" onChange={handleChange} />
+                <InputField placeholder="Phone Number" name="institutePhoneNumber" onChange={handleChange} />
+                <InputField placeholder="Email" type="email" name="instituteEmail" onChange={handleChange} />
+                <InputField placeholder="Address" name="instituteAddress" onChange={handleChange} />
+                <InputField placeholder="PAN Number" name="institutePanNumber" onChange={handleChange} />
+                <InputField placeholder="VAT Number" name="instituteVatNumber" onChange={handleChange} />
+
+                <button
+                  type="submit"
+                  className="w-full py-3 rounded-lg text-white font-semibold shadow-lg transition-all duration-300 bg-gradient-to-r from-[#4f46e5] to-[#10b981] hover:from-[#4f46e5]/90 hover:to-[#10b981]/90"
+                >
+                  Create
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Features Column (Long Scrollable Content) */}
+        <div className="w-full md:w-[40%]">
+          <div className="space-y-6">
+            {features.map((feature, i) => (
+              <div
+                key={i}
+                className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center"
+              >
+                <div className="w-12 h-12 mx-auto mb-3 flex items-center justify-center rounded-full bg-gradient-to-br from-[#4f46e5]/30 to-[#10b981]/30">
+                  <span className="text-2xl">{feature.icon}</span>
+                </div>
+                <h3 className="font-semibold text-lg mb-1">{feature.title}</h3>
+                <p className="text-gray-600 text-sm">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Gradient text Styling (Next.js way with global style/CSS module or Tailwind plugin) */}
+      {/* NOTE: You may need to adapt this <style jsx> block based on your project's CSS setup */}
+      <style jsx global>{`
+        .text-gradient {
+          background: linear-gradient(to right, #4f46e5, #10b981);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+      `}</style>
     </div>
-    {/* Divider */}
-    <div className="my-6 border-t border-gray-300 relative">
-      <span className="absolute top-[-10px] bg-white left-1/2 transform -translate-x-1/2 px-3 text-gray-500">
-        Create
-      </span>
-    </div>
-    {/* Form */}
-    <form onSubmit={handleInstituteCreateSubmission} className="space-y-4">
-      {/* Full Name */}
-      <div>
-        <input type="text" placeholder="Institute Name" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" name="instituteName" onChange={handleChange} />
-      </div>
-      {/* Mobile Number */}
-      <div>
-        <input type="text" placeholder="Phone Number" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" name="institutePhoneNumber" onChange={handleChange} />
-      </div>
-      {/* Email */}
-      <div>
-        <input type="email" placeholder="Email" onChange={handleChange} className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" name="instituteEmail" />
-      </div>
-      {/* Password */}
-      <div className="relative">
-        <input type="text" placeholder="Address" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" onChange={handleChange} name="instituteAddress" />
-    
-      </div>
-      {/* Confirm Password */}
-      <div className="relative">
-        <input type="text" onChange={handleChange} placeholder="Pan No" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" name="institutePanNumber" />
-      </div>
-       <div className="relative">
-        <input type="text" onChange={handleChange} placeholder="Vat No" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" name="instituteVatNumber" />
-      </div>
-      {/* Submit Button */}
-      <button type="submit" className="w-full bg-gradient-to-br from-green-600 to-emerald-400 text-white py-2 rounded-lg hover:from-blue-600 hover:to-blue-700 transition">
-        Create
-      </button>
-    </form>
-
-  </div>
-</div>
-
-      </>
-    )
+  );
 }
 
-export default becomeInstitute
+// --- Helper Components and Data ---
+
+interface InputProps {
+  placeholder: string;
+  name: string;
+  type?: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+function InputField({ placeholder, name, type = "text", onChange }: InputProps) {
+  return (
+    <input
+      type={type}
+      name={name}
+      placeholder={placeholder}
+      onChange={onChange}
+      className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#4f46e5]/30 transition"
+      required // Added HTML required attribute for basic form validation
+    />
+  );
+}
+
+const features = [
+  { title: "Manage Students", desc: "Easily manage student records and progress.", icon: "👩‍🎓" },
+  { title: "Manage Teachers", desc: "Organize your teachers and courses efficiently.", icon: "👨‍🏫" },
+  { title: "Analytics & Reports", desc: "Track performance with detailed reports.", icon: "📊" },
+  { title: "Secure & Reliable", desc: "Your data is safe and always accessible.", icon: "🔒" },
+  { title: "Extra Feature 1", desc: "Additional feature to extend scroll.", icon: "✨" },
+  { title: "Extra Feature 2", desc: "Additional feature to extend scroll.", icon: "🚀" },
+  { title: "Extra Feature 3", desc: "Additional feature to extend scroll.", icon: "💡" },
+  { title: "Extra Feature 4", desc: "Additional feature to extend scroll.", icon: "📚" },
+];
