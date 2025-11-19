@@ -1,15 +1,18 @@
 "use client";
 
-import { useAppDispatch } from "@/lib/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { createInstitute } from "@/lib/store/institute/instituteSlice";
 import { IInstitute } from "@/lib/store/institute/instituteSlice.type";
-import { ChangeEvent, FormEvent, useState, useRef } from "react";
+import { ChangeEvent, FormEvent, useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Status } from "@/lib/types/type";
 
 // --- Main Component ---
 export default function BecomeInstitute() {
-  // Assuming these are defined in your actual project setup
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { status } = useAppSelector((store) => store.institute);
 
   const [instituteData, setInstituteData] = useState<IInstitute>({
     instituteAddress: "",
@@ -27,15 +30,29 @@ export default function BecomeInstitute() {
 
   const handleInstituteCreateSubmission = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Dispatch the action to create the institute
-    console.log("Submitting institute data:", instituteData);
     dispatch(createInstitute(instituteData));
-    // Optionally reset form or show success message here
   };
+
+  // --- Effect to handle redirect on successful creation ---
+  useEffect(() => {
+    if (status === Status.SUCCESS) {
+      // Optional: reset the form
+      setInstituteData({
+        instituteAddress: "",
+        instituteEmail: "",
+        instituteName: "",
+        institutePhoneNumber: "",
+        institutePanNumber: "",
+        instituteVatNumber: "",
+      });
+
+      // Redirect to dashboard after success
+      router.push("/institute/dashboard");
+    }
+  }, [status, router]);
 
   return (
     <div className="relative min-h-screen font-[Poppins] bg-[#f8fafc] overflow-x-hidden">
-      
       {/* Header */}
       <div className="text-center pt-5 pb-8 px-4">
         <h1 className="text-4xl sm:text-5xl font-bold text-gradient mb-4">Become an Institute</h1>
@@ -47,17 +64,11 @@ export default function BecomeInstitute() {
       {/* Section container */}
       <div
         ref={sectionRef}
-        // Flex container for the two columns
         className="relative flex flex-col md:flex-row justify-center items-start px-4 md:px-16 gap-[10%] pb-16"
       >
-        
         {/* Sticky Left Form Column */}
         <div className="w-full md:w-[40%] mb-10 md:mb-0">
-          <div
-            // Key to stickiness: sticky position and top offset
-            className="sticky top-[80px]" 
-            style={{ alignSelf: "start" }}
-          >
+          <div className="sticky top-[80px]" style={{ alignSelf: "start" }}>
             <div className="bg-white p-8 rounded-2xl shadow-2xl">
               <h2 className="text-2xl font-bold text-[#4f46e5] mb-4">Create Your Account</h2>
               <form onSubmit={handleInstituteCreateSubmission} className="space-y-4">
@@ -70,16 +81,20 @@ export default function BecomeInstitute() {
 
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-lg text-white font-semibold shadow-lg transition-all duration-300 bg-gradient-to-r from-[#4f46e5] to-[#10b981] hover:from-[#4f46e5]/90 hover:to-[#10b981]/90"
+                  disabled={status === Status.LOADING}
+                  className={`w-full py-3 rounded-lg text-white font-semibold shadow-lg transition-all duration-300 
+                    ${status === Status.LOADING 
+                      ? "bg-gray-400 cursor-not-allowed" 
+                      : "bg-gradient-to-r from-[#4f46e5] to-[#10b981] hover:from-[#4f46e5]/90 hover:to-[#10b981]/90"}`}
                 >
-                  Create
+                  {status === Status.LOADING ? "Creating..." : "Create"}
                 </button>
               </form>
             </div>
           </div>
         </div>
 
-        {/* Right Features Column (Long Scrollable Content) */}
+        {/* Right Features Column */}
         <div className="w-full md:w-[40%]">
           <div className="space-y-6">
             {features.map((feature, i) => (
@@ -98,8 +113,6 @@ export default function BecomeInstitute() {
         </div>
       </div>
 
-      {/* Gradient text Styling (Next.js way with global style/CSS module or Tailwind plugin) */}
-      {/* NOTE: You may need to adapt this <style jsx> block based on your project's CSS setup */}
       <style jsx global>{`
         .text-gradient {
           background: linear-gradient(to right, #4f46e5, #10b981);
@@ -111,8 +124,7 @@ export default function BecomeInstitute() {
   );
 }
 
-// --- Helper Components and Data ---
-
+// --- Helper Components ---
 interface InputProps {
   placeholder: string;
   name: string;
@@ -128,7 +140,7 @@ function InputField({ placeholder, name, type = "text", onChange }: InputProps) 
       placeholder={placeholder}
       onChange={onChange}
       className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#4f46e5]/30 transition"
-      required // Added HTML required attribute for basic form validation
+      required
     />
   );
 }

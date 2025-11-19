@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import store from "@/lib/store/store";
 import Navbar from "@/lib/components/navbar/Navbar";
 import { poppins } from "@/fonts/fonts";
+import Footer from "@/lib/components/footer/Footer";
 
 
 // export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({
         <Provider store={store}>
           <Navbar />
           {children}
+          <Footer />
         </Provider>
       </body>
     </html>

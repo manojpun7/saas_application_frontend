@@ -2,7 +2,7 @@ import { Status } from "../../types/type";
 import { IInstitute, IInstituteInitialData } from "./instituteSlice.type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store";
-import API from "@/lib/http/Api"; 
+import API from "@/lib/http/Api";
 import APIWITHTOKEN from "@/lib/http/ApiWithToken";
 
 const initialState: IInstituteInitialData = {
@@ -12,7 +12,7 @@ const initialState: IInstituteInitialData = {
     institutePhoneNumber: "",
     instituteAddress: "",
   },
-  status: Status.LOADING,
+  status: Status.NOTHING,
 };
 const instituteSlice = createSlice({
   name: "institute",
@@ -35,6 +35,7 @@ export default instituteSlice.reducer;
 export function createInstitute(data: IInstitute) {
   return async function createInstituteThunk(dispatch: AppDispatch) {
     try {
+      dispatch(setStatus(Status.LOADING))
       const response = await APIWITHTOKEN.post("institute", data);
       if (response.status === 200) {
         dispatch(setStatus(Status.SUCCESS));
@@ -51,8 +52,9 @@ export function createInstitute(data: IInstitute) {
 export function fetchInstitutes() {
   return async function fetchInstitutesThunk(dispatch: AppDispatch) {
     try {
+      dispatch(setStatus(Status.LOADING));
       const response = await API.get("institute");
-   
+
       if (response.status == 200) {
         dispatch(setStatus(Status.SUCCESS));
         dispatch(setInstitute(response.data.data));

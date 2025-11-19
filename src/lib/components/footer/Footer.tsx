@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="py-10 bg-gray-100 sm:pt-16 lg:pt-24  border-t border-gray-100">
+    <footer className="py-10 bg-gray-100  sm:pt-16 lg:pt-24  border-t border-gray-100">
       <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
         <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-6 gap-y-16 gap-x-12">
           {/* Logo & Description Section */}

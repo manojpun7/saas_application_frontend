@@ -1,6 +1,5 @@
 "use client";
 
-import Footer from "@/lib/components/footer/Footer";
 import HeroSection from "@/lib/components/homepage/HeroSection";
 import { PricingSection } from "@/lib/components/homepage/PricingSection";
 import { ServiceSection } from "@/lib/components/homepage/ServiceSection";
@@ -12,7 +11,6 @@ export default function App() {
       <HeroSection />
       <PricingSection />
       <ServiceSection/>
-      <Footer/>
     </div>
   );
 }
